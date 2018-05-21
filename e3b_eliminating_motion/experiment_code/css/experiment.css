@@ -1,0 +1,111 @@
+      .reminder {
+         display: none;
+         position: absolute;
+         width: 300px;
+         z-index: 100;
+     }
+
+      #seventhVisual {
+      }
+
+      #vignette {
+          display: none;
+          left: 100px;
+          text-align: center;
+          z-index: 1;
+      }
+
+      #consentDiv {
+        font-size:9pt;
+        font-family: Arial, Helvetica;
+        padding:10px;
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 30px;
+      }
+
+      #demographics {
+        display: none;
+        position: relative;
+        width: 800px;
+        height: 700px;
+        background: #DDDDDD;
+        border: 1px solid gray;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      #commentBox {
+        padding:10px;
+        display: none;
+        position: relative;
+        width: 900px;
+        height: 500px;
+        background: #DDDDDD;
+        border: 1px solid gray;
+        margin: 0 auto;
+        z-index: 1;
+        text-align: center;
+      }
+
+      #saving, #customSubmit {
+      display: none;
+      }
+
+      #task {
+       display: none;
+        position: relative;
+        width: 800px;
+        height: 400px;
+        background: #DDDDDD;
+        border: 1px solid gray;
+        margin: 0 auto;
+      }
+
+      .question {
+          position: absolute;
+          display: none;
+          background: #DDDDDD;
+          top: 2%;
+          left: 40%;
+          width: 300px;
+          text-align: center;
+      }
+
+      #startExperimentButton_two {
+
+      }
+
+      #startExperimentButton {
+      }
+
+     #preOverlap {
+       display: none;
+     }
+
+     #fullOverlap {
+       display: none;
+     }
+
+     #postOverlap {
+       display: none;
+     }
+
+     #end {
+       display: none;
+     }
+
+     #start {
+       display: none;
+     }
+
+     #blank {
+       display: none;
+     }
+
+
+
+     .cartoon {
+         width: 100%; /*150*/
+         z-index: 100;
+     }​

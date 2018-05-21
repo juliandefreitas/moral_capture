@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <script src="https://assets.codepen.io/assets/common/stopExecutionOnTimeout-f961f59a28ef4fd551736b43f94620b5.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+    <script src="https://scorsese.wjh.harvard.edu/turk/tools/TimTurkToolsPlus.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="css/experiment.css">
+
+    <script>
+
+    var expName = "wrongness";
+    var version = "v1";
+    var experiment = "cond1";
+    var expNum = 1;
+    var expType = "grouping";
+
+     $(document).ready(function(){
+
+          console.log(GetSubmitLocation());
+          workerId = gup('workerId');
+          console.log("worker id is_" + workerId);
+          assignmentId = gup('assignmentId');
+          console.log("assignment id exp is_" + assignmentId);
+        // });
+
+          // Create data entry in sequel pro database
+          $.getJSON( "https://scorsese.wjh.harvard.edu/turk/tools/addSubjects.php?experimenter=jdf&experiment=" + expName + "_" + version + "_" + experiment + "_" + expType + "&id=" + workerId, function( data ) {
+          });
+      });
+
+        var startExperimentTime = [];
+        var endTime = [];
+        var displayTime = [];
+        var wrongness_scaled_a = '';
+        var wrongness_choice_a = '';
+        var whichCar_choice_a = '';
+        var comp_a = '';
+        var doneBef_a = '';
+        var sex_a = '';
+        var age_a = '';
+        var trialStruct = [];
+        var comments = '';
+
+        var agentDur = 600;
+        var agentShortDur = 336;
+        var chairDur = 975;
+        var patientDur = 115;
+        var startDelay = 2000;
+        var totalDur = agentDur + chairDur + patientDur + startDelay;
+        var victimRot = 90;
+
+        var experimenter = 'jdf';
+        var experimentName = expName + "_" + expType + "_" + version; //name to save data on server with
+        var server = 'https://scorsese.wjh.harvard.edu';
+
+        function ShowTrial() {
+           $('#vignette').show();
+           $('#task').show();
+           $('#consentDiv').hide();
+        }
+
+        function Launch() {
+              document.getElementById("vignette").style.color = "white";
+              setTimeout(function(){
+                  startExperimentTime = Date.now();
+                  $('#agent').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear', delay: startDelay});
+              },0);
+
+              setTimeout(function(){
+                  $('#patient').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear',delay: 0});
+                  $('#wood').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear',delay: 0});
+                  //$('#woodTwo').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear',delay: 0});
+                  //$('#woodThree').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear',delay: 0});
+                  //$('#woodFour').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear',delay: 0});
+                  //$('#woodFive').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear',delay: 0});
+                  //$('#woodSix').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear',delay: 0});
+                  //$('#woodSeven').velocity({translateX: [250, 0], translateY: [0,0]},{duration: agentDur, easing: 'linear',delay: 0});
+              },agentDur + startDelay);
+
+              setTimeout(function(){
+                  $('#victim').velocity({rotateZ: '90deg', translateX: [30, 0], translateY: [-90,0]},{duration: patientDur});
+                  $('#sixthVisual').velocity({rotateZ: '90deg', translateX: [30, 0], translateY: [-90,0]},{duration: patientDur});
+              },agentDur + agentDur + startDelay);
+
+              setTimeout(function(){
+                  $('#agent').hide();
+                  $('#victim').hide();
+                  $('#patient').hide();
+                  $('#wood').hide();
+                  $('#woodOne').hide();
+                  $('#woodTwo').hide();
+                  $('#woodThree').hide();
+                  $('#woodFour').hide();
+                  $('#wrongness_scaled').show();
+                  $('#seventhVisual').show();
+                  endTime = Date.now()
+              },agentDur + agentDur + startDelay + 1000);
+        }
+
+         function ShowwrongnessChoice() {
+
+            displayTime = endTime - startExperimentTime;
+            console.log(displayTime);
+            $( "#wrongness_scaled" ).on( "click", function() {
+            var qOne =  $("#wrongness_scaled input[type='radio']:checked");
+             if (qOne.length > 0) {
+                 wrongness_scaled_a = qOne.val();
+               }
+             });
+
+            $('#wrongness_scaled').hide();
+            $('#wrongness_choice').show();
+
+           $( "#wrongness_choice" ).on( "click", function() {
+           var qTwo =  $("#wrongness_choice input[type='radio']:checked");
+            if (qTwo.length > 0) {
+                wrongness_choice_a = qTwo.val();
+              }
+            });
+        }
+
+         function ShowWhichCarChoice() {
+
+            $('#wrongness_choice').hide();
+            $('#whichCar_choice').show();
+
+           $( "#whichCar_choice" ).on( "click", function() {
+           var qThree =  $("#whichCar_choice input[type='radio']:checked");
+            if (qThree.length > 0) {
+                whichCar_choice_a = qThree.val();
+              }
+            });
+        }
+
+         function ShowDescription() {
+
+            $('#whichCar_choice').hide();
+            $('#description').show();
+        }
+
+        function Demographics() {
+            $('#task').hide();
+            $('#vignette').hide();
+            $('#consentDiv').hide();
+            $('#question').hide();
+            $('#demographics').show();
+
+            $( "#comprehension" ).on( "click", function() {
+            var qFour =  $("#comprehension input[type='radio']:checked");
+                if (qFour.length > 0) {
+                    comp_a = qFour.val();
+                  }
+            });
+
+            $( "#doneBefore" ).on( "click", function() {
+            var qFive =  $("#doneBefore input[type='radio']:checked");
+                if (qFive.length > 0) {
+                    doneBef_a = qFive.val();
+                  }
+            });
+
+           $( "#sex" ).on( "click", function() {
+           var qSix=  $("#sex input[type='radio']:checked");
+                if (qSix.length > 0) {
+                    sex_a = qSix.val();
+                  }
+           });
+
+           $( "#age" ).on( "click", function() {
+           var qSeven=  $("#age input[type='radio']:checked");
+                if (qSeven.length > 0) {
+                    age_a = qSeven.val();
+                  }
+           });
+        }
+
+        function CommentBox() {
+            $('#demographics').hide();
+            $('#commentBox').show();
+        }
+
+        /* Save the data to the server (choose what to save): */
+        function SaveData() {
+          /* Now lets push it all into the trialStruct: */
+              trialStruct.push({
+                 'cond': expNum,
+                 'condName' : expType,
+                 'wrongness_scaled': wrongness_scaled_a,
+                 'wrongness_choice': wrongness_choice_a,
+                 'whichCar_choice' : whichCar_choice_a,
+                 'description' : $('#descrip').val(),
+                 'comprehension': comp_a,
+                 'doneBefore': doneBef_a,
+                 'sex': sex_a,
+                 "age": $('#ss_age').val(),
+                 "comments": $('#comm').val(), // their comments
+                 'displayTime': displayTime
+              });
+          /* Hide everything in the 'done' div, and replace it with 'saving...': */
+          $('#commentBox').children().hide();
+          $('#saving').show();
+
+          /* Set the assignment ID hidden input to the Turk assignment ID (required by Turk): */
+          $('#assignmentId').val(GetAssignmentId());
+            console.log($('#assignmentId').val());
+
+        /* if there's an assignment id, enable the submit button */
+          if ($('#assignmentId').val() != "NONE" && $('#assignmentId').val() != "ASSIGNMENT_ID_NOT_AVAILABLE") {
+              console.log("no assignment id");
+           // $("#customSubmit").attr('disabled',false);
+          }
+
+          /* set the submit location to either "actual mturk" or "sandbox" */
+          $("#turkSubmit").attr('action' , GetSubmitLocation() );
+          console.log($("#turkSubmit").attr('action'));
+
+          /* How long did they take to do the HIT, inclusive of reading instructions, etc? */
+          var newDate = new Date();
+          var totalTime = newDate - startExperimentTime;
+
+          /* Get the assignment ID: */
+          var curID = (IsOnTurk())? GetAssignmentId() : prompt("Doesn't look like you " +
+          "are on Turk, so you're probably testing. Enter an ID to save your data with:", "id");
+
+          /* What things to save: */
+          d = {
+            "curID": curID, //assignmentID
+            "workerID": workerId, //workerID
+            "curTime": newDate.today() + " @ " + newDate.timeNow(), //submission time
+            "userAgent": navigator.userAgent, //browser and version
+            "windowWidth": $(window).width(), //size of window HIT was completed in
+            "windowHeight": $(window).height(),
+            "screenWidth": screen.width, //size of their monitor
+            "screenHeight": screen.height,
+            "totalTime": totalTime, // time it took to complete the HIT
+            "trialStruct": trialStruct //the trialStruct with all the data and conditions
+          };
+
+          $.getJSON( "https://scorsese.wjh.harvard.edu/turk/tools/addSubjects.php?experimenter=jdf&experiment=" + expName + "_" + version + "_" + experiment + "_" + expType + "&id=" + workerId, function( data ) {
+          });
+
+          SendToServer(curID, d);
+        }
+
+        /* Send the data to the server as JSON: */
+        function SendToServer(id, curData) {
+          var dataToServer = {
+            'id': workerId + "_" + expName + "_" + expType + "_" + experiment + "_" + version + "_" + assignmentId, //filename to save the data with
+            'workerId' : workerId,
+            'experimenter': experimenter, // experimenter folder to save it in
+            'experimentName': experimentName, //directory to save it in
+            'curData': JSON.stringify(curData) // data to save
+          };
+
+           //Post the data to the server, using https:// or it will fail if run
+           //from within Turk:
+          $.post(server + "/turk/tools/save.php",
+            dataToServer,
+            // Whether the data gets saved or not, submit the form to Turk:
+            function(data) {
+                document.forms[0].submit();
+            }
+          ).fail(function(data) {
+                document.forms[0].submit();
+          });
+
+        }
+
+        function gup( name )
+        {
+          name = name.replace(/[\[]/,"\[").replace(/[\]]/,"\]");
+          var regexS = "[\?&]"+name+"=([^&#]*)";
+          var regex = new RegExp( regexS );
+          var param = regex.exec( window.location.href );
+          if( param == null )
+            return "";
+          else
+            return param[1];
+        }
+
+        function GetAssignmentId() {
+          var assignmentId = turkGetParam( 'assignmentId', 'NONE' );
+          return assignmentId;
+        }
+
+    </script>
+
+
+  </head>
+
+  <body>
+
+    <!-- NOTE: you can't submit the hit without a textarea! But id can be hidden... -->
+    <textarea name="comments" id="comments" style="display: none; width: 300px; height: 200px"></textarea>
+    <button id="customSubmit" type="button" class="btn btn-default" disabled="true" onclick="Start();">Submit</button>
+
+    <!-- Wrap the entire experiment in a form. Always start the form with a hidden input for theTurk assignment ID that we'll fill in with their real assignment ID in Javascript -->
+    <!-- <form id="turkSubmit" action="https://www.mturk.com/mturk/externalSubmit" method="post" autocomplete="off"> -->
+    <form id="turkSubmit" action="" method="post" autocomplete="off">
+    <input type="hidden" name="assignmentId" id="assignmentId" value="">
+    <input type="submit" value="Submit" name="submitButton" id="submitButton" style="display: none">
+
+    <div id='consentDiv'>
+                    <p><u><b>Consent to Participate in Research:</b></u></p><p>By answering the following questions, you are participating in a study being performed by cognitive scientists in the Harvard University Psychology Department.  The purpose of this research is to examine human visual performance.</p><p>By participating you are confirming that you are over 18 years of age and have normal or corrected-to-normal vision.</p><p>If you have questions about this research, or if you would like to receive a report of this research when it is completed please contact Julian De Freitas at defreitas@g.harvard.edu.</p><p>Your participation in this research is completely voluntary.  If you choose to participate, you may change your mind and leave the study at any time.  Refusal to participate or stopping your participation will involve no penalty or loss of benefits to which you are otherwise entitled.</p><p>You may decline to answer any or all of the following questions. Your anonymity is assured; the researchers who have requested your participation will not receive any personal information about you. </p><p>For questions, concerns, or complaints that are not being addressed by the researcher, or research-related harm contact:  Committee on the Use of Human Subjects in Research at Harvard University, 1414 Massachusetts Avenue, Second Floor, Cambridge, MA  02138. Phone: 617-496-CUHS (2847).  Email: cuhs@fas.harvard.edu</p><p>By continuing, you are confirming that you understand these instructions and conditions of participation.</p> <br>
+                    <p style='text-align: center'><a href='javascript:ShowTrial()' class='startExperimentButton'>Start Experiment</a></p>
+     </div>
+
+    <div id="vignette">
+         <p> Please press play and pay <b>VERY CLOSE ATTENTION</b>. You will only be able to play the video once.</p>
+         <p><a href='javascript:Launch()' class='startExperimentButton'>Play</a></p>
+    </div>
+
+    <div id= "task">
+          <div> <img class="agent" src = "images/redCar.png" id="agent"></div>
+          <div> <img class="patient" src = "images/blueCar.png" id="patient"></div>
+          <div> <img class="victim" src = "images/man2v2.png" id="victim"></div>
+          <div> <img class="wood" src = "images/wood_two.png" id="wood"></div>
+
+          <div> <img class="reminder" src = "images/reminder_small.png" id="seventhVisual"></div>
+
+          <div id="wrongness_scaled" class = "question" align= "center">
+                     <br>
+                     <p><b>1. </b> <i> How wrong was the driver of the red car's behavior? </i></p>
+                     <p>
+                     <table cellspacing="1" cellpadding="0" border="0" bgcolor="#DDDDDD" align="center" width="90%">
+                         <tbody>
+                             <tr>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="1" /></td>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="2" /></td>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="3" /></td>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="4" /></td>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="5" /></td>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="6" /></td>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="7" /></td>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="8" /></td>
+                                 <td width="10%" align="center"><input type="radio" name="01.ratelexical" value="9" /></td>
+                             </tr>
+                             <tr>
+                                 <td valign="top" align="center">1</td>
+                                 <td valign="top" align="center">2</td>
+                                 <td valign="top" align="center">3</td>
+                                 <td valign="top" align="center">4</td>
+                                 <td valign="top" align="center">5</td>
+                                 <td valign="top" align="center">6</td>
+                                 <td valign="top" align="center">7</td>
+                                 <td valign="top" align="center">8</td>
+                                 <td valign="top" align="center">9</td>
+                             </tr>
+                             <tr>
+                             <td valign="center" align="left" colspan="3">Not</br>at all</td>
+                             <td valign="center" align="right" colspan="10">Very</br>much</td>
+                             </tr>
+                         </tbody>
+                     </table>
+                     <p><input id = "wrongnessScaledButton" valign="center" type="button" value="Proceed"  /></p>
+                     <script>
+                         $( "#wrongnessScaledButton" ).on( "click", function() {
+                         var checkOne =  $("#wrongness_scaled input[type='radio']:checked");
+                               if (checkOne.length > 0) {
+                                   ShowWrongnessChoice();
+                                 }
+                               else if (checkOne.length <= 0) {
+                                 alert("Please answer all the questions.");
+                               }
+                         });
+                     </script>
+                     </p>
+             </div>
+
+             <div id="wrongness_choice" class = "question" align= "center">
+                        <br>
+                        <p><b>2. </b> <i> Whose behavior was more wrong: the driver of the red car, or the driver of the blue car? </i></p>
+                        <p>
+                        <table cellspacing="1" cellpadding="0" border="0" bgcolor="#DDDDDD" align="center" width="90%">
+                            <tbody>
+                                <tr>
+                                    <td width="30%" align="center"><input type="radio" name="01.ratelexical" value="1" /></td>
+                                    <td width="30%" align="center"><input type="radio" name="01.ratelexical" value="2" /></td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" align="center">The driver of the red car</td>
+                                    <td valign="top" align="center">The driver of the blue car</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><input id = "wrongnessChoiceButton" valign="center" type="button" value="Proceed"  /></p>
+                        <script>
+                            $( "#wrongnessChoiceButton" ).on( "click", function() {
+                            var checkTwo =  $("#wrongness_choice input[type='radio']:checked");
+                                  if (checkTwo.length > 0) {
+                                      ShowWhichCarChoice();
+                                    }
+                                  else if (checkTwo.length <= 0) {
+                                    alert("Please answer all the questions.");
+                                  }
+                            });
+                        </script>
+                        </p>
+                </div>
+
+           <div id="whichCar_choice" class = "question" align= "center">
+                      <br>
+                      <p><b>3. </b> <i> Which car directly hit the man: the red car, or the blue car? </i></p>
+                      <p>
+                      <table cellspacing="1" cellpadding="0" border="0" bgcolor="#DDDDDD" align="center" width="90%">
+                          <tbody>
+                              <tr>
+                                  <td width="30%" align="center"><input type="radio" name="01.ratelexical" value="1" /></td>
+                                  <td width="30%" align="center"><input type="radio" name="01.ratelexical" value="2" /></td>
+                              </tr>
+                              <tr>
+                                  <td valign="top" align="center">The red car</td>
+                                  <td valign="top" align="center">The blue car</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      <p><input id = "whichCarChoiceButton" valign="center" type="button" value="Proceed"  /></p>
+                      <script>
+                          $( "#whichCarChoiceButton" ).on( "click", function() {
+                          var checkThree =  $("#whichCar_choice input[type='radio']:checked");
+                                if (checkThree.length > 0) {
+                                    ShowDescription();
+                                  }
+                                else if (checkThree.length <= 0) {
+                                  alert("Please answer all the questions.");
+                                }
+                          });
+                      </script>
+                      </p>
+              </div>
+
+
+
+    <div id="description" class = "question">
+        <div id="doneText"><b>4.</b><i> Please describe why you gave the specific wrongness judgment that you did.</i><textarea name="description" id="descrip" style="width: 300px; height: 200px"></textarea><br><br>
+        <p><input type="button" onclick="Demographics();" value="Proceed" /></p>
+        </div>
+    </div>
+</div>
+
+    <div id="demographics" name = "demographics">
+           <div id="comprehension">
+                  <p><b>5.</b><i> Which, if any, of the following events occurred in the scenario that you read?</i></p>
+                  <input type="radio" name="comp" value="A" /> A. Two men jumped up and down <br />
+                  <input type="radio" name="comp" value="B" /> B. A car broke into tiny pieces <br />
+                  <input type="radio" name="comp" value="C" /> C. A man punched another man <br />
+                  <input type="radio" name="comp" value="D" /> D. All of the above <br />
+                  <input type="radio" name="comp" value="E" /> E. None of the above
+          </div>
+
+          <div id="doneBefore" name = "doneBefore">
+                  <p><b>6.</b><i> Have you ever completed a HIT containing a similar scenario, perhaps involving the same sorts of questions? </i></p>
+                  <input type="radio" name="doneBef" value="Yes" /> Yes <br />
+                  <input type="radio" name="doneBef" value="No" /> No
+          </div>
+
+          <div id="sexAge">
+                <div id="sex">
+                      <p>
+                      <table width="410" cellspacing="1" cellpadding="20" border="0" bgcolor="#DDDDDD" align="center">
+                          <tbody>
+                              <tr>
+                                  <td>
+                                  <p><b>7.</b><i> What is your gender?</i></p>
+                                  <input type="radio" name="p1.sex" value="Male" /> Male <br />
+                                  <input type="radio" name="p1.sex" value="Female" /> Female
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </p>
+              </div>
+          </div>
+
+            <div id="age">
+                  <p>
+                  <table width="410" cellspacing="1" cellpadding="20" border="0" bgcolor="#DDDDDD" align="center">
+                      <tbody>
+                          <tr>
+                              <td>
+                              <p><b>8.</b><i> What is your age?</i></p>
+                              <p><input type="text" size="12" name="ss_age" id="ss_age" /></p>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                <p><input id = "demogrButton" valign="center" type="button" value="Proceed"  /></p>
+           <script>
+               $( "#demogrButton" ).on( "click", function() {
+               var checkFour =  $("#comprehension input[type='radio']:checked");
+               var checkFive = $("#doneBefore input[type='radio']:checked");
+                     if (checkFour.length > 0 && checkFive.length > 0) {
+                         CommentBox();
+                       }
+                     else {
+                       alert("Please answer all the questions.");
+                     }
+               });
+           </script>
+                  </p>
+           </div>
+    </div>
+
+        <!-- Standard post-experiment comment box (initially hidden): -->
+        <div id="commentBox">
+            <div id="doneText">Done! Thanks!<br><br>Any comments for us? (Was it fun? Any technical difficulties?)<br><br><textarea name="comments" id="comm" style="width: 300px; height: 200px"></textarea><br><br>
+            <a href="javascript:SaveData()" id="timSubmit">Submit</a>
+            </div><div id="saving">Saving . . .</div>
+        </div>
+
+  </body>
+
+<html>

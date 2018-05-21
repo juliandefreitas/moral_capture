@@ -1,0 +1,173 @@
+      .agent {
+          position: absolute;
+          top: 26%;
+          left: 1%;
+          width: 130px; /*150*/
+          z-index: 100;
+          opacity: 0.2; /*.6*/
+      }​
+
+      #agent {
+      }
+
+      .patient {
+          position: absolute;
+          top: 30%;
+          left: 32%;
+          width: 130px; /*.6*/
+          opacity: 0.2;
+      }​
+
+      #patient {
+      }
+
+      .victim {
+          position: absolute;
+          top: 22%;
+          left: 77%;
+          width: 4%; /*8*/
+      }​
+
+      #victim {
+      }
+
+      .agentContext_standard {
+          position: absolute;
+          top: 51%;
+          left: 1%;
+          width: 50px; /*150*/
+          z-index: 100;
+      }​
+
+      #agentContext_standard {
+      }
+
+      .patientContext_standard {
+          position: absolute;
+          top: 51%;
+          left: 37%;
+          width: 50px; /*150*/
+      }​
+
+      #patientContext_standard {
+      }
+
+      .agentContext {
+          display: none;
+          position: absolute;
+          top: 51%;
+          left: 1%;
+          width: 50px; /*150*/
+          z-index: 100;
+      }​
+
+      #agentContextVisual {
+      }
+
+      .patientContext {
+          display: none;
+          position: absolute;
+          top: 51%;
+          left: 37%;
+          width: 50px; /*150*/
+      }​
+
+      #patientContextVisual {
+      }
+
+      #victim {
+      }
+
+      .agentContextDur {
+          display: none;
+          position: absolute;
+          top: 51%;
+          left: 1%;
+          width: 50px; /*150*/
+          z-index: 100;
+      }​
+
+      #agentContextDur {
+      }
+
+      .patientContextDur {
+          display: none;
+          position: absolute;
+          top: 51%;
+          left: 37%;
+          width: 50px; /*150*/
+      }​
+
+      #patientContextDur {
+      }
+
+      #seventhVisual {
+          display: none;
+          position: absolute;
+          width: 300px;
+          z-index: 100;
+      }
+
+      #vignette {
+          display: none;
+          left: 100px;
+          text-align: center;
+          z-index: 1;
+      }
+
+      #consentDiv {
+        font-size:9pt;
+        font-family: Arial, Helvetica;
+        padding:10px;
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 30px;
+      }
+
+      #demographics {
+        display: none;
+        position: relative;
+        width: 800px;
+        height: 700px;
+        background: #DDDDDD;
+        border: 1px solid gray;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      #commentBox {
+        padding:10px;
+        display: none;
+        position: relative;
+        width: 900px;
+        height: 500px;
+        background: #DDDDDD;
+        border: 1px solid gray;
+        margin: 0 auto;
+        z-index: 1;
+        text-align: center;
+      }
+
+      #saving, #customSubmit {
+      display: none;
+      }
+
+      #task {
+       display: none;
+        position: relative;
+        width: 800px;
+        height: 400px;
+        background: #DDDDDD;
+        border: 1px solid gray;
+        margin: 0 auto;
+      }
+
+      .question {
+          position: absolute;
+          display: none;
+          background: #DDDDDD;
+          top: 2%;
+          left: 40%;
+          width: 300px;
+          text-align: center;
+      }
